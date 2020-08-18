@@ -44,7 +44,9 @@ const Links = () => {
             <div className="card-body">
               <div className="d-flex justify-content-between">
                 <h4>{tareas.titulo}</h4>
-                <i className="material-icons text-danger pointer" onClick={()=> Delete(tareas.id)}>close</i>
+                <div>
+                  <i className="material-icons text-danger pointer" onClick={()=> Delete(tareas.id)}>close</i>
+                </div>
 
               </div>
               <p>
