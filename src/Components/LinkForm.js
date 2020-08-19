@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { db } from "../firebase";
 
 const LinkForm = (props) => {
   const initialStateValues = {
@@ -19,6 +20,19 @@ const LinkForm = (props) => {
     props.addOrEditTask(values);
     setValues({ ...initialStateValues });
   };
+
+  const obtenerEnlace = async (id) => {
+    const doc = await db.collection("tareas").doc(id).get();
+    setValues({ ...doc.data() });
+  };
+
+  useEffect(() => {
+    if (props.idActual === "") {
+      setValues({ ...initialStateValues });
+    } else {
+      obtenerEnlace(props.idActual);
+    }
+  }, [props.idActual]);
 
   return (
     <form className="card card-body" onSubmit={enviarDatos}>
@@ -59,7 +73,9 @@ const LinkForm = (props) => {
           value={values.descripcion}
         ></textarea>
       </div>
-      <button className="btn btn-primary btn-block">Guardar</button>
+      <button className="btn btn-primary btn-block">
+        {props.idActual === '' ? 'Guardar': 'Actualizar'}
+      </button>
     </form>
   );
 };
